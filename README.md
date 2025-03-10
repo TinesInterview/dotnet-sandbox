@@ -1,6 +1,6 @@
 # Tines
 
-This is our a sandbox repository, containing a sample backend React application connected to a .NET API, to ensure candidates can run our coding challenge solution without problems.
+This is our a sandbox repository, containing a sample React application connected to a .NET API, to ensure candidates can run our coding challenge solution without problems.
 
 ## Getting Started
 
@@ -13,7 +13,7 @@ t/setup
 Once that's complete, you can run both frontend and backend servers using
 
 ```bash
-t/setup
+t/start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
