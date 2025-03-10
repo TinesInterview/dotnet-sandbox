@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# t/start
+
+# Set script to exit on error
+set -e
+
+# Define cleanup function
+cleanup() {
+  echo "🧹 Cleaning up processes..."
+  # Kill the .NET server if it's running
+  if [ ! -z "$DOTNET_PID" ] && ps -p $DOTNET_PID > /dev/null; then
+    echo "🛑 Stopping .NET server (PID: $DOTNET_PID)..."
+    kill $DOTNET_PID
+  fi
+  exit 0
+}
+
+# Register the cleanup function to run on script termination
+trap cleanup EXIT INT TERM
+
+# Navigate to app directory and prepare it first
+echo "📦 Installing JS dependencies..."
+cd app
+yarn
+
+# Start .NET server in the background
+echo "🐍 Starting .NET server..."
+cd ../ApiServer
+dotnet run &
+DOTNET_PID=$!
+
+# Wait a moment to ensure .NET server starts properly
+sleep 2
+echo "✅ .NET server running with PID: $DOTNET_PID"
+
+# Navigate back to app directory
+cd ../app
+
+# Start Next server
+echo "⭐ Starting Next server..."
+yarn dev
